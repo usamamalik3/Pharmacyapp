@@ -168,6 +168,7 @@ class MedDetail extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20),
+<<<<<<< HEAD
             // Expanded(
             //   child: InkWell(
             //     onTap: () {
@@ -201,6 +202,30 @@ class MedDetail extends StatelessWidget {
             //     ),
             //   ),
             // ),
+=======
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: primarycolor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                            '+ Add to Cart',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+           
+>>>>>>> acd91ed (category)
           ],
         ),
       ),

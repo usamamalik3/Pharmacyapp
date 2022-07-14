@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pharmacy/login.dart';
-import 'package:pharmacy/providers/category.dart';
+import 'package:pharmacy/shop.dart';
+
 import 'package:provider/provider.dart';
 
 import 'Detail.dart';
@@ -12,17 +13,23 @@ import 'constraint.dart';
 import 'models/product.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+
+  Homepage({Key? key}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+    // ctgoryprovider? Ctgoryprovider;
+
+
   List<Product> _products = [];
+  List<categorymodel> cmodel=[];
   final FirebaseAuth auth = FirebaseAuth.instance;
   final firestoreInstance = FirebaseFirestore.instance;
-  int selectedFoodCard = 0;
+  
+
   signOut() async {
     await auth.signOut();
     Navigator.pushReplacement(
@@ -44,18 +51,13 @@ class _HomepageState extends State<Homepage> {
       }
     });
 
-    print(_products);
-  }
-
-  @override
-  void initState() {
-    fetchproduct();
-    super.initState();
+   
   }
 
   @override
   Widget build(BuildContext context) {
-    Ctgoryprovider = Provider.of<ctgoryprovider>(context);
+    // Ctgoryprovider = Provider.of<ctgoryprovider>(context);
+    // Ctgoryprovider!.getCategoryproduct();
     return Scaffold(
       drawer: Drawer(
         elevation: 10.0,
@@ -188,26 +190,76 @@ class _HomepageState extends State<Homepage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
                   child: Text('Categories',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 22)),
                 ),
-                SizedBox(
-                  height: 240,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: foodCategoryList.length,
-                    itemBuilder: (context, index) => Padding(
+                 SizedBox(
+          height: 200,
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection("category").snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshort) {
+              if (!streamSnapshort.hasData) {
+                return Center(child: const CircularProgressIndicator());
+              }
+              var data= streamSnapshort.data!.docs;
+              return  ListView.builder(
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemCount: streamSnapshort.data!.docs.length,
+                itemBuilder: (ctx, index) {
+                  return Padding(
                       padding: EdgeInsets.only(left: index == 0 ? 25 : 0),
-                      child: medCategoryCard(
-                          foodCategoryList[index]['imagePath'],
-                          foodCategoryList[index]['name'],
-                          index),
+                    child: Categories(
+                     
+                      categoryName: streamSnapshort.data!.docs[index]
+                          ["cname"],
+                      image: streamSnapshort.data!.docs[index]["cimage"],
+                       onTap: () {
+                        var cName= streamSnapshort.data!.docs[index]
+                          ["cname"];
+                          print(cName);
+                       
+                          Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ctgorysho(categoryname: cName)));
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) => GridViewWidget(
+                        //       subCollection: streamSnapshort.data!.docs[index]
+                        //           ["categoryName"],
+                        //       collection: "categories",
+                        //       id: streamSnapshort.data!.docs[index].id,
+                        //     ),
+                        //   ),
+                        // );
+                      },
                     ),
-                  ),
-                ),
+                  );
+                },
+              );
+            }
+              ),
+              ),
+              
+
+
+
+                // SizedBox(
+                 
+                  // height: 240,
+                  // child: ,
+                  // child: ListView.builder(
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: Ctgoryprovider!.categorymodellist.length,
+                  //   itemBuilder: (context, index) => Padding(
+                  //     padding: EdgeInsets.only(left: index == 0 ? 25 : 0),
+                  //     child: medCategoryCard( Ctgoryprovider!.categorymodellist[index].cimageUrl,  Ctgoryprovider!.categorymodellist[index].pName, index)
+                  //   ),
+                  // ),
+                // ),
                 const Padding(
                   padding: EdgeInsets.only(left: 20, top: 10),
                   child: Text('Popular',
@@ -216,6 +268,7 @@ class _HomepageState extends State<Homepage> {
                 ),
                 Column(
                   children: List.generate(
+                  
                     _products.length,
                     (index) => GestureDetector(
                       onTap: () => {
@@ -326,56 +379,111 @@ class _HomepageState extends State<Homepage> {
           )
         ],
       ),
+
+      
     );
+
   }
 
-  ctgoryprovider? Ctgoryprovider;
-  Widget medCategoryCard(String? imagePath, String? name, int index) {
+
+
+
+
+  
+
+  
+  // Widget medCategoryCard(String? imagePath, String? name, int index) {
+  //   return GestureDetector(
+  //     onTap:() {
+        
+  //     },
+  //     child: Container(
+  //               margin: EdgeInsets.only(right: 20, top: 20, bottom: 20),
+  //               padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(20),
+  //                   color: primarycolor,
+  //                   boxShadow: [
+  //                     BoxShadow(
+  //                       color: Colors.grey,
+  //                       blurRadius: 15,
+  //                     )
+  //                   ]),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: [
+  //                   Image.network(
+  //                      imagePath!,
+  //                       width: 40),
+                    // Text(name!,
+  //                       style: TextStyle(
+  //                         fontWeight: FontWeight.w800,
+  //                         fontSize: 16,
+  //                         color: Colors.white,
+  //                       )),
+  //                   RawMaterialButton(
+  //                       onPressed: null,
+  //                       fillColor: selectedFoodCard == index
+  //                           ? Colors.greenAccent
+  //                           : Colors.white,
+  //                       shape: CircleBorder(),
+  //                       child: Icon(Icons.chevron_right_rounded,
+  //                           size: 20,
+  //                           color: selectedFoodCard == index
+  //                               ? Colors.white
+  //                               : primarycolor))
+  //                 ],
+  //               ),
+  //             ),
+  //   );
+            
+          
+  // }
+}
+
+class Categories extends StatelessWidget {
+  final String image;
+  final String categoryName;
+  final Function()? onTap;
+  const Categories({
+    Key? key,
+    required this.onTap,
+    required this.categoryName,
+    required this.image,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {
-        setState(
-          () => {
-            print(index),
-            selectedFoodCard = index,
-          },
-        ),
-      },
-      child: Container(
-        margin: EdgeInsets.only(right: 20, top: 20, bottom: 20),
-        padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: primarycolor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 15,
-              )
-            ]),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(imagePath!, width: 40),
-            Text(name!,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 16,
-                  color: Colors.white,
-                )),
-            RawMaterialButton(
-                onPressed: null,
-                fillColor: selectedFoodCard == index
-                    ? Colors.greenAccent
-                    : Colors.white,
-                shape: CircleBorder(),
-                child: Icon(Icons.chevron_right_rounded,
-                    size: 20,
-                    color: selectedFoodCard == index
-                        ? Colors.white
-                        : primarycolor))
-          ],
-        ),
-      ),
+      onTap: onTap,
+      child:  Container(
+        width: 100,
+                margin: EdgeInsets.only(right: 20, top: 20, bottom: 20),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: primarycolor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 15,
+                      )
+                    ]),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.network(
+                    image,
+                        width: 40),
+                    Text(categoryName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          color: Colors.white,
+                        )),
+                   
+                  ],
+                ),
+              ),
     );
   }
 }
