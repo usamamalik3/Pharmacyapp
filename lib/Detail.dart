@@ -168,41 +168,6 @@ class MedDetail extends StatelessWidget {
               ),
             ),
             SizedBox(width: 20),
-<<<<<<< HEAD
-            // Expanded(
-            //   child: InkWell(
-            //     onTap: () {
-            //       productController.addToCart();
-            //     },
-            //     child: Container(
-            //       alignment: Alignment.center,
-            //       decoration: BoxDecoration(
-            //         color: Colors.black,
-            //         borderRadius: BorderRadius.circular(15),
-            //       ),
-            //       child: Obx(
-            //         () => productController.isAddLoading.value
-            //             ? SizedBox(
-            //                 width: 20,
-            //                 height: 20,
-            //                 child: CircularProgressIndicator(
-            //                   color: Colors.white,
-            //                   strokeWidth: 3,
-            //                 ),
-            //               )
-            //             : Text(
-            //                 '+ Add to Cart',
-            //                 style: TextStyle(
-            //                   fontSize: 15,
-            //                   fontWeight: FontWeight.w500,
-            //                   color: Colors.white,
-            //                 ),
-            //               ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-=======
             Expanded(
               child: InkWell(
                 onTap: () {
@@ -225,7 +190,6 @@ class MedDetail extends StatelessWidget {
                 ),
               ),
            
->>>>>>> acd91ed (category)
           ],
         ),
       ),

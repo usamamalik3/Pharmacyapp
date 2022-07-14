@@ -25,7 +25,6 @@ class _HomepageState extends State<Homepage> {
 
 
   List<Product> _products = [];
-  List<categorymodel> cmodel=[];
   final FirebaseAuth auth = FirebaseAuth.instance;
   final firestoreInstance = FirebaseFirestore.instance;
   
@@ -52,6 +51,12 @@ class _HomepageState extends State<Homepage> {
     });
 
    
+  }
+
+  @override
+  void initState() {
+    fetchproduct();
+    super.initState();
   }
 
   @override
@@ -205,8 +210,7 @@ class _HomepageState extends State<Homepage> {
               if (!streamSnapshort.hasData) {
                 return Center(child: const CircularProgressIndicator());
               }
-              var data= streamSnapshort.data!.docs;
-              return  ListView.builder(
+              return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
                 itemCount: streamSnapshort.data!.docs.length,
@@ -214,12 +218,10 @@ class _HomepageState extends State<Homepage> {
                   return Padding(
                       padding: EdgeInsets.only(left: index == 0 ? 25 : 0),
                     child: Categories(
-                     
-                      categoryName: streamSnapshort.data!.docs[index]
-                          ["cname"],
-                      image: streamSnapshort.data!.docs[index]["cimage"],
-                       onTap: () {
-                        var cName= streamSnapshort.data!.docs[index]
+                      onTap: () {
+
+
+                         var cName= streamSnapshort.data!.docs[index]
                           ["cname"];
                           print(cName);
                        
@@ -236,6 +238,9 @@ class _HomepageState extends State<Homepage> {
                         //   ),
                         // );
                       },
+                      categoryName: streamSnapshort.data!.docs[index]
+                          ["cname"],
+                      image: streamSnapshort.data!.docs[index]["cimage"],
                     ),
                   );
                 },

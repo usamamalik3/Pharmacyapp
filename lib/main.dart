@@ -4,13 +4,8 @@ import 'package:pharmacy/Home.dart';
 import 'package:pharmacy/Register.dart';
 import 'package:pharmacy/constraint.dart';
 import 'package:pharmacy/login.dart';
-<<<<<<< HEAD
-import 'package:pharmacy/providers/category.dart';
-import 'package:provider/provider.dart';
-=======
 
 
->>>>>>> acd91ed (category)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,23 +19,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return ChangeNotifierProvider<ctgoryprovider>(
-      create: (context) => ctgoryprovider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'pharmacy',
-        home: Welcome(),
-      ),
-    );
-=======
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'pharmacy',
         home: Homepage(),
       );
  
->>>>>>> acd91ed (category)
   }
 }
 

@@ -202,18 +202,11 @@ class _LoginState extends State<Login> {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Homepage()));
     }
-<<<<<<< HEAD
-    // } else if (role == "admin") {
-    //   // Navigator.push(
-    //   //     context, MaterialPageRoute(builder: (context) => AdminScreen()));
-    // }
-=======
     else if (role == "admin") {
       Text("WAit for admin");
       // Navigator.push(
       //     context, MaterialPageRoute(builder: (context) => AdminScreen()));
     }
->>>>>>> acd91ed (category)
   }
 
   _login() async {
