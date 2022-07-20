@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pharmacy/cart.dart';
 import 'package:pharmacy/login.dart';
 import 'package:pharmacy/shop.dart';
 
@@ -146,21 +147,7 @@ class _HomepageState extends State<Homepage> {
         actions: [
           Row(
             children: [
-              Container(
-                height: 40,
-                width: 30,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(blurRadius: 7, spreadRadius: 3, color: primarycolor)
-                ], shape: BoxShape.circle, color: primarycolor),
-                child: Icon(
-                  Icons.search,
-                  size: 20,
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
+             
               Container(
                 height: 40,
                 width: 30,
@@ -176,10 +163,18 @@ class _HomepageState extends State<Homepage> {
                   shape: BoxShape.circle,
                   color: primarycolor,
                 ),
-                child: Icon(
-                  Icons.notifications,
-                  size: 20,
-                ),
+                child: 
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Cart()));
+            },
+            icon: const Icon(
+              Icons.add_shopping_cart,
+              color: Colors.white,
+            ),
+          ),
+      
               ),
               SizedBox(
                 width: 30,
@@ -227,16 +222,7 @@ class _HomepageState extends State<Homepage> {
                        
                           Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ctgorysho(categoryname: cName)));
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => GridViewWidget(
-                        //       subCollection: streamSnapshort.data!.docs[index]
-                        //           ["categoryName"],
-                        //       collection: "categories",
-                        //       id: streamSnapshort.data!.docs[index].id,
-                        //     ),
-                        //   ),
-                        // );
+                    
                       },
                       categoryName: streamSnapshort.data!.docs[index]
                           ["cname"],
@@ -252,19 +238,7 @@ class _HomepageState extends State<Homepage> {
 
 
 
-                // SizedBox(
-                 
-                  // height: 240,
-                  // child: ,
-                  // child: ListView.builder(
-                  //   scrollDirection: Axis.horizontal,
-                  //   itemCount: Ctgoryprovider!.categorymodellist.length,
-                  //   itemBuilder: (context, index) => Padding(
-                  //     padding: EdgeInsets.only(left: index == 0 ? 25 : 0),
-                  //     child: medCategoryCard( Ctgoryprovider!.categorymodellist[index].cimageUrl,  Ctgoryprovider!.categorymodellist[index].pName, index)
-                  //   ),
-                  // ),
-                // ),
+             
                 const Padding(
                   padding: EdgeInsets.only(left: 20, top: 10),
                   child: Text('Popular',

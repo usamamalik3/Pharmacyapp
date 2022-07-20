@@ -69,7 +69,7 @@ class _RegisterState extends State<Register> {
                     ),
                     _buildemail(),
                     _buildusrname(),
-                    _buildAdress(),
+                    
                     _buildPassword(),
                     _buildcnfrmPassword(),
                     const SizedBox(
@@ -220,16 +220,13 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget _buildAdress() {
-    return Regformwidget(
-      labelText: "Adress",
-      obscureText: false,
-      textInputType: TextInputType.streetAddress,
-      actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
-      controller: address,
-    );
-  }
+ 
+
+
+
+
+
+  
 
   _signup() async {
     if (_formKey.currentState!.validate()) {
@@ -245,7 +242,7 @@ class _RegisterState extends State<Register> {
         firestoreInstance.collection("users").doc(firebaseUser!.uid).set({
           "email": emailController.text,
           "user name": username.text,
-          "address": address.text,
+         
           "password": passwordController.text,
           "role": "user",
         }).then((value) {

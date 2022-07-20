@@ -2,17 +2,50 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pharmacy/Checkout.dart';
 import 'package:pharmacy/constraint.dart';
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
 
   @override
+  
   State<Cart> createState() => _CartState();
 }
 
+
 class _CartState extends State<Cart> {
+    double sum = 0;
+       double total = 0;
+  @override
+  void initState() {
+FirebaseFirestore.instance.collection("cart-items").get().then((querySnapshot) {
+  querySnapshot.docs.forEach((result) {
+    FirebaseFirestore.instance
+       .collection("cart-items")
+              .doc(FirebaseAuth.instance.currentUser!.email)
+              .collection("items")
+        .get()
+        .then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        sum = sum + result.data()['totalprice'];
+      });
+       setState(() {
+          total = sum;
+          });
+     
+    });
+  });
+ 
+});
+
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    
+  
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primarycolor,
@@ -58,6 +91,7 @@ class _CartState extends State<Cart> {
                   direction: DismissDirection.endToStart,
                   onDismissed: (direction) {
                     setState(() {
+                      
                        FirebaseFirestore.instance
                               .collection("cart-items")
                               .doc(FirebaseAuth.instance.currentUser!.email)
@@ -143,6 +177,7 @@ class _CartState extends State<Cart> {
                 },
               ),
             ),
+            
             Align(
               alignment: Alignment.bottomCenter,
               child:  
@@ -150,7 +185,8 @@ class _CartState extends State<Cart> {
                          padding: const EdgeInsets.all(8.0),
                          child: ElevatedButton(
                             onPressed: () {
-                              
+                               Navigator.push(
+            context, MaterialPageRoute(builder: (context) => checkout()));
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,
@@ -165,9 +201,9 @@ class _CartState extends State<Cart> {
                               child: Container(
                                 height: 60,
                                 width: 300,
-                                child: const Center(
+                                child:  Center(
                                   child: Text(
-                                    "Check out",
+                                    total.toString(),
                                     style: TextStyle(
                                       fontFamily: 'Roboto-Thin',
                                       fontWeight: FontWeight.w300,

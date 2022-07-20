@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pharmacy/Admin.dart';
+import 'package:pharmacy/Checkout.dart';
 import 'package:pharmacy/Home.dart';
 import 'package:pharmacy/Register.dart';
 import 'package:pharmacy/constraint.dart';
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'pharmacy',
-        home: Homepage(),
+        home: checkout(),
       );
  
   }
