@@ -76,13 +76,17 @@ getdetail() async {
   final _fireStore = FirebaseFirestore.instance;
 
     // Get docs from collection reference
-    QuerySnapshot querySnapshot = await _fireStore.collectionGroup('items').get();;
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await _fireStore.collection("cart-items").doc(FirebaseAuth.instance.currentUser!.email).collection("items").get();
 
     // Get data from docs and convert map to List
 
   //for a specific field
-  final allData =
+  // final allData =
+  //         querySnapshot.docs;
+           final allData =
           querySnapshot.docs.map((doc) => doc.get('name')).toList();
+
+
 
     print(allData);
 
@@ -98,11 +102,9 @@ getdetail() async {
     "order no"   : code,
     "Total price" : total,
     "product" : allData,
+    "street" : street.text,
+    "city" : city.text,
   
-    "address" : {
-      "street" : street.text,
-      "city" : city.text,
-    }
   }).then((value) =>  Fluttertoast.showToast(
                                 msg:
                                     "Order succesfully your order no is  $code",

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:pharmacy/Admin.dart';
+import 'package:pharmacy/admin/Admin.dart';
 import 'package:pharmacy/Home.dart';
 import 'package:pharmacy/Register.dart';
 

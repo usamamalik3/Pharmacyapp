@@ -9,7 +9,7 @@ import 'package:pharmacy/shop.dart';
 import 'package:provider/provider.dart';
 
 import 'Detail.dart';
-import 'constant.dart';
+
 import 'constraint.dart';
 import 'models/product.dart';
 
@@ -137,11 +137,11 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: primarycolor,
         toolbarHeight: 100,
         elevation: 14,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(70),
                 bottomLeft: Radius.circular(70))),
-        title: Text(
+        title: const Text(
           'pharmacy',
         ),
         actions: [
@@ -218,7 +218,7 @@ class _HomepageState extends State<Homepage> {
 
                          var cName= streamSnapshort.data!.docs[index]
                           ["cname"];
-                          print(cName);
+                    
                        
                           Navigator.push(context,
                           MaterialPageRoute(builder: (context) => ctgorysho(categoryname: cName)));
@@ -226,7 +226,7 @@ class _HomepageState extends State<Homepage> {
                       },
                       categoryName: streamSnapshort.data!.docs[index]
                           ["cname"],
-                      image: streamSnapshort.data!.docs[index]["cimage"],
+                      image: streamSnapshort.data!.docs[index]["cimage"].toString(),
                     ),
                   );
                 },
