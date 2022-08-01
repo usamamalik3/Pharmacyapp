@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacy/admin/Admin.dart';
@@ -17,8 +18,30 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+    checkAuthentification() async {
+    _auth.authStateChanges().listen((user) {
+      if (user != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (Context) => Homepage()));
+      }
+    });
+
+   
+  }
+   @override
+    void initState() {
+      super.initState();
+      checkAuthentification();
+    }
 
   // This widget is the root of your application.
   @override
@@ -34,6 +57,7 @@ class MyApp extends StatelessWidget {
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -50,23 +74,23 @@ class Welcome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
-                children: <Widget>[
+                children: const <Widget>[
                   Text(
                     "Welcome",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                      color: textprimarycolor,
+                      color: Colors.white,
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 20,
                   ),
                   Text(
                     "Empowering People to Improve Their Lives ",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: textprimarycolor,
+                      color: Colors.white,
                       fontSize: 15,
                     ),
                   )
@@ -92,12 +116,12 @@ class Welcome extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         side: const BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(50)),
-                    child: Text(
+                    child: const Text(
                       "Login",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
-                        color: textprimarycolor,
+                        color: Colors.white,
                       ),
                     ),
                   ),

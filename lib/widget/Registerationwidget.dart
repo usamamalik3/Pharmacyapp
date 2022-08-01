@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'constraint.dart';
+import '../constraint.dart';
 
 class Regformwidget extends StatefulWidget {
   final TextInputType textInputType;
   final String labelText;
   final bool obscureText;
   final TextEditingController controller;
-  final Function functionValidate;
+ final String? Function(String?)? validator;
   final TextInputAction actionKeyboard;
   final Widget? suffixicon;
 
@@ -18,7 +18,7 @@ class Regformwidget extends StatefulWidget {
     required this.labelText,
     required this.obscureText,
     required this.controller,
-    required this.functionValidate,
+    this.validator,
     required this.actionKeyboard,
   }) : super(key: key);
 
@@ -36,6 +36,7 @@ class _RegformwidgetState extends State<Regformwidget> {
         obscureText: widget.obscureText,
         keyboardType: widget.textInputType,
         textInputAction: widget.actionKeyboard,
+        validator: widget.validator,
         style: TextStyle(
           color: textsecondarycolor,
           fontSize: 18.0,

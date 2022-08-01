@@ -9,7 +9,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:pay/pay.dart';
 import 'package:pharmacy/Constraint.dart';
 
-import 'package:pharmacy/Registerationwidget.dart';
+import 'package:pharmacy/widget/Registerationwidget.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:pharmacy/models/order.dart';
 import 'package:pharmacy/my_googleay.dart';
@@ -276,7 +276,7 @@ getdetail() async {
 }
 
 
-  String? requiredValidator(value, messageError) {
+  String? Function(String?)? requiredValidator(value, messageError) {
     if (value.isEmpty) {
       return messageError;
     }
@@ -291,7 +291,7 @@ getdetail() async {
       obscureText: false,
       textInputType: TextInputType.name,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+       validator: requiredValidator(firstName.text, "Required"),
       controller: firstName,
     );
   }
@@ -301,7 +301,7 @@ getdetail() async {
       obscureText: false,
       textInputType: TextInputType.name,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+        validator: RequiredValidator(errorText: "Required"),
       controller:lastName,
     );
   }
@@ -312,7 +312,7 @@ getdetail() async {
       obscureText: false,
       textInputType: TextInputType.phone,
       actionKeyboard: TextInputAction.done,
-      functionValidate: MultiValidator([
+      validator: MultiValidator([
            RequiredValidator(errorText: "Required"),
         MinLengthValidator(11, errorText: "phone no should be 11 character"),
       ]),
@@ -326,7 +326,7 @@ getdetail() async {
       obscureText: false,
       textInputType: TextInputType.streetAddress,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+      validator: RequiredValidator(errorText: "Required"),
       controller: street,
     );
   }
@@ -336,7 +336,7 @@ getdetail() async {
       obscureText: false,
       textInputType: TextInputType.streetAddress,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+      validator: RequiredValidator(errorText: "Required"),
       controller: city,
     );
   }

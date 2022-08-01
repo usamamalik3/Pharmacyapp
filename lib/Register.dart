@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:pharmacy/Registerationwidget.dart';
+import 'package:pharmacy/widget/Registerationwidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,6 +36,7 @@ class _RegisterState extends State<Register> {
 
   TextEditingController address = new TextEditingController();
   bool _isObscure = true;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +150,7 @@ class _RegisterState extends State<Register> {
       obscureText: false,
       textInputType: TextInputType.emailAddress,
       actionKeyboard: TextInputAction.done,
-      functionValidate: MultiValidator([
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
         EmailValidator(errorText: "Email is not valid")
       ]),
@@ -175,7 +178,7 @@ class _RegisterState extends State<Register> {
             });
           }),
       actionKeyboard: TextInputAction.done,
-      functionValidate: MultiValidator([
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
         MinLengthValidator(8, errorText: "Password should b 8 character"),
         PatternValidator(r'(?=.*?[#?!@$%^&*-])',
@@ -198,7 +201,7 @@ class _RegisterState extends State<Register> {
             });
           }),
       actionKeyboard: TextInputAction.done,
-      functionValidate: (val) {
+      validator: (val) {
         if (val!.isEmpty) {
           return "Required";
         }
@@ -215,7 +218,7 @@ class _RegisterState extends State<Register> {
       obscureText: false,
       textInputType: TextInputType.name,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+      validator: RequiredValidator(errorText: "Required"),
       controller: username,
     );
   }
@@ -229,20 +232,21 @@ class _RegisterState extends State<Register> {
   
 
   _signup() async {
+    
+    
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      
       try {
-        UserCredential user = await _auth.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+        UserCredential user = await _auth.createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text);
 
         var firebaseUser = FirebaseAuth.instance.currentUser;
+          await firebaseUser!.reload();
 
-        firestoreInstance.collection("users").doc(firebaseUser!.uid).set({
+        firestoreInstance.collection("users").doc(firebaseUser.uid).set({
           "email": emailController.text,
           "user name": username.text,
-         
+          "address": address.text,
           "password": passwordController.text,
           "role": "user",
         }).then((value) {
@@ -261,6 +265,8 @@ class _RegisterState extends State<Register> {
                 backgroundColor: Colors.white,
                 textColor: primarycolor,
                 fontSize: 18.0);
+
+            break;
             return e.message;
         }
       }

@@ -5,8 +5,12 @@ class Product {
   String pimageUrl;
   int pPrice;
   int? pQuantity;
+  bool? ispopular;
+  
 
   Product({
+    this.ispopular,
+    
     this.pQuantity,
     required this.pimageUrl,
     required this.pID,

@@ -158,7 +158,7 @@ class _MedDetailState extends State<MedDetail> {
                               ),
                             ),
                             Text(
-                              widget.product.pPrice.toString(),
+                              "${widget.product.pPrice}\$",
                               style:const TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
@@ -227,7 +227,7 @@ class _MedDetailState extends State<MedDetail> {
       bottomNavigationBar: Container(
         height: 70,
         color: Colors.white,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

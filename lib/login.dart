@@ -9,7 +9,7 @@ import 'package:pharmacy/Home.dart';
 import 'package:pharmacy/Register.dart';
 
 import '../Constraint.dart';
-import 'Registerationwidget.dart';
+import 'widget/Registerationwidget.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -27,20 +27,6 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = new TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-  checkAuthentification() async {
-    _auth.authStateChanges().listen((user) {
-      if (user != null) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (Context) => Homepage()));
-      }
-    });
-
-    @override
-    void initState() {
-      super.initState();
-      this.checkAuthentification();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +136,7 @@ class _LoginState extends State<Login> {
       obscureText: false,
       textInputType: TextInputType.emailAddress,
       actionKeyboard: TextInputAction.done,
-      functionValidate: MultiValidator([
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
         EmailValidator(errorText: "Email is not valid")
       ]),
@@ -178,7 +164,7 @@ class _LoginState extends State<Login> {
           }),
       textInputType: TextInputType.visiblePassword,
       actionKeyboard: TextInputAction.done,
-      functionValidate: MultiValidator([
+      validator: MultiValidator([
         RequiredValidator(errorText: "Required"),
         MinLengthValidator(8, errorText: "Password should b 8 character"),
         PatternValidator(r'(?=.*?[#?!@$%^&*-])',
@@ -198,7 +184,7 @@ class _LoginState extends State<Login> {
     setState(() {
       role = snap["role"];
     });
-    print(role);
+ 
     if (role == "user") {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => Homepage()));

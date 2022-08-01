@@ -7,7 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart'; // For Image Picker    
  
 import 'package:pharmacy/Constraint.dart';
-import 'package:pharmacy/Registerationwidget.dart';
+import 'package:pharmacy/admin/Admin.dart';
+import 'package:pharmacy/widget/Registerationwidget.dart';
 import 'package:path/path.dart' as Path;
 
 
@@ -25,23 +26,22 @@ class _addcategoryState extends State<addcategory> {
    final picker = ImagePicker(); 
 FirebaseStorage storage = FirebaseStorage.instance;
  Future chooseFile() async {   
-    final pickedfile = await picker.pickImage(source:ImageSource.gallery);
+   final pickedfile = await picker.pickImage(source:ImageSource.gallery);
       setState(() {
         _image=File(pickedfile!.path);
       });
-  
-      
- } 
- 
- uploadProfileImage() async {
-    Reference reference = FirebaseStorage.instance
+        Reference reference = FirebaseStorage.instance
         .ref()
         .child(_image.toString());
     UploadTask uploadTask = reference.putFile(_image!);
     TaskSnapshot snapshot = await uploadTask;
   _uploadedFileURL= await snapshot.ref.getDownloadURL();
-    print(_uploadedFileURL);
-  }
+  
+  
+      
+ } 
+ 
+ 
 
   TextEditingController Name = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -89,7 +89,8 @@ FirebaseStorage storage = FirebaseStorage.instance;
          elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+             Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Admin()));
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -146,12 +147,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
                  ):
                  Container(),
                  SizedBox(height: 20,),
-                 ElevatedButton(    
-                   child: Text('upload image'),    
-                   onPressed: uploadProfileImage,   
-                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff02fa561),
-                   ), ),
+               
                   
                  
                  
@@ -207,7 +203,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
  
  
  
-  String? requiredValidator(value, messageError) {
+  String? Function(String?)? requiredValidator(value, messageError) {
     if (value.isEmpty) {
       return messageError;
     }
@@ -219,7 +215,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
       obscureText: false,
       textInputType: TextInputType.name,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+      validator: requiredValidator(Name.text, " Required"),
       controller: Name,);
     }
 }

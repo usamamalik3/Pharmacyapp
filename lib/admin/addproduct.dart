@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pharmacy/Constraint.dart';
-import 'package:pharmacy/Registerationwidget.dart';
+import 'package:pharmacy/admin/Admin.dart';
+import 'package:pharmacy/widget/Registerationwidget.dart';
 
 class Addproduct extends StatefulWidget {
   const Addproduct({Key? key}) : super(key: key);
@@ -59,7 +60,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
     "pCategory" : _selectedValue,
   }).then((value) =>  Fluttertoast.showToast(
                                 msg:
-                                    "category added successfully",
+                                    "product added successfully",
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
@@ -93,7 +94,8 @@ FirebaseStorage storage = FirebaseStorage.instance;
          elevation: 0,
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Admin()));
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -233,7 +235,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
 
            
   }
-  String? requiredValidator(value, messageError) {
+  String? Function(String?)? requiredValidator(value, messageError) {
     if (value.isEmpty) {
       return messageError;
     }
@@ -246,7 +248,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
       obscureText: false,
       textInputType: TextInputType.name,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+        validator: requiredValidator(productName.text, "Required"),
       controller: productName,
     );
   }
@@ -256,7 +258,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
       obscureText: false,
       textInputType: TextInputType.multiline,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+     validator: requiredValidator(productdesc.text, "Required"),
       controller:productdesc,
     );
   }
@@ -267,7 +269,7 @@ FirebaseStorage storage = FirebaseStorage.instance;
       obscureText: false,
       textInputType: TextInputType.number,
       actionKeyboard: TextInputAction.done,
-      functionValidate: requiredValidator,
+      validator: requiredValidator(productprice.text, "Required"),
       controller: productprice,
     );
   }
